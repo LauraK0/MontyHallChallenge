@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+</head>
+
+<body>
+    <header class="header">
+        <nav class="navbar-container">
+          <a href="#about" class="button">Applicant</a>
+          <ul class="navbar">
+            <li>
+              <a href="#about" class="navbar-link">What is the Monty Hall Problem?</a>
+            </li>
+            <li>
+              <a href="#how-to-play" class="navbar-link">How to Play</a>
+            </li>
+          </ul>
+        </nav>
+      </header>
+
+    <div class="container">
+        <h1>The Monty Hall Problem</h1>
+        <div class="door-container">
+            <img id="door1" class="door" src="./images/door-closed.jpg" alt="door closed">
+            <img id="door2" class="door" src="./images/door-closed.jpg" alt="door closed">
+            <img id="door3" class="door" src="./images/door-closed.jpg" alt="door closed">
+        </div>
+        <div class="game-info">
+            <p id="game-feedback">
+                Behind one of these three doors there is a prize, the two other doors do not contain a prize.
+                Please click on the door that you think the prize is behind.
+            </p>
+            <button type="submit" id="replay-button">Replay</button>
+        </div>
+        <div class="output-container">
+        <div class="statistics-container">
+            <h2>Statistics</h2>
+            <table>
+                <tr>
+                    <td id="first-box"> </td>
+                    <td> Won </td>
+                    <td> Lost </td>
+                </tr>
+                <tr>
+                    <td> Changed </td>
+                    <td id="changeWin"> </td>
+                    <td id="changeLose"> </td>
+                </tr>
+                <tr>
+                    <td> Didn't change </td>
+                    <td id="notchangeWin"> </td>
+                    <td id="notchangeLose"> </td>
+                </tr>
+            </table>
+            <button type="reset" id="reset-button">Reset Statistics</button>
+        </div>
+        <div class="simulate-container">
+            <h2>Simulate</h2>
+            <div class="wrapper">
+                <label for="simulation-length">Length of simulation:</label>
+                <input type="number" id="simulation-length" value=1>
+                <label for="will-change-or-not">Should simulation change it's mind:</label>
+                <select title="will-change-or-not"  id="change-or-not" value="change">
+                    <option>Always changes</option>
+                    <option>Never changes</option>
+                </select>
+                <label for="simulation-speed">Speed of simulation:</label>
+                <select title="simulation-speed" id="simulation-speed" value="1">
+                    <option>speed x1</option>
+                    <option>speed x2</option>
+                    <option>speed x1000</option>
+                </select>
+            </div>
+            <button type="button" id="simulate-button">Simulate Game</button>
+        </div>
+    </div>
+</div>
+
+    <script defer src="./website.js"></script>
+</body>
