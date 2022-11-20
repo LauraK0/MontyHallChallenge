@@ -91,9 +91,22 @@ header {
     gap: 2em;
     padding-bottom: 2em;
 }
-.door {
+.button-door {
     width:150px;
     height:300px;
+    background-size: cover;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+#door-1{
+    background-image: url(./images/door-closed.jpg);
+}
+#door-2{
+    background-image: url(./images/door-closed.jpg);
+}
+#door-3{
+    background-image: url(./images/door-closed.jpg);
 }
 .game-info {
     position: relative;
@@ -127,7 +140,7 @@ td {
 #first-box {
     background-color: var(--colour-two);
 }
-button {
+.standard-button {
     width:100px;
     height: 40px;
     cursor:pointer;

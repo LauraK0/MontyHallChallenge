@@ -25,16 +25,18 @@
     <div class="container">
         <h1>The Monty Hall Problem</h1>
         <div class="door-container">
-            <img id="door1" class="door" src="./images/door-closed.jpg" alt="door closed">
-            <img id="door2" class="door" src="./images/door-closed.jpg" alt="door closed">
-            <img id="door3" class="door" src="./images/door-closed.jpg" alt="door closed">
+            <button type="button" id="door-1" class="button-door">ONE</button>
+            <button type="button" id="door-2" class="button-door">TWO</button>
+            <button type="button" id="door-3" class="button-door">THREE</button>
         </div>
         <div class="game-info">
             <p id="game-feedback">
                 Behind one of these three doors there is a prize, the two other doors do not contain a prize.
                 Please click on the door that you think the prize is behind.
+                For the purposes of the experiment, we assume that you never pick the winning door on the first attempt.
             </p>
-            <button type="submit" id="replay-button">Replay</button>
+            <p id="result"></p>
+            <button class="standard-button" type="submit" id="replay-button">Replay</button>
         </div>
         <div class="output-container">
         <div class="statistics-container">
@@ -56,7 +58,7 @@
                     <td id="notchangeLose"> </td>
                 </tr>
             </table>
-            <button type="reset" id="reset-button">Reset Statistics</button>
+            <button class="standard-button" type="reset" id="reset-button">Reset Statistics</button>
         </div>
         <div class="simulate-container">
             <h2>Simulate</h2>
@@ -75,10 +77,10 @@
                     <option>speed x1000</option>
                 </select>
             </div>
-            <button type="button" id="simulate-button">Simulate Game</button>
+            <button class="standard-button" type="button" id="simulate-button">Simulate Game</button>
         </div>
     </div>
 </div>
 
-    <script defer src="./website.js"></script>
+    <script defer src="./script.js"></script>
 </body>
