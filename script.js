@@ -1,5 +1,10 @@
 const gameFeedback = document.getElementById('game-feedback');
 const possibleChoices = document.querySelectorAll('.button-door');
+const replayButton = document.getElementById('replay-button');
+
+let door1 = document.getElementById('door-1');
+let door2 = document.getElementById('door-2');
+let door3 = document.getElementById('door-3');
 
 let userFirstPick;
 let userFirstPickEl;
@@ -11,6 +16,7 @@ let userSecondPickEl;
 let secondPickID
 let winningDoorID;
 let nonWinningDoor;
+
 
 possibleChoices.forEach(possibleChoice => possibleChoice.addEventListener('click', (e) => {
     if (firstPickMade == false) {
@@ -30,6 +36,7 @@ possibleChoices.forEach(possibleChoice => possibleChoice.addEventListener('click
     }
 }));
 
+replayButton.addEventListener('click', replay)
 
 function generateWinningDoor() {
     if (firstPickMade == true) {
@@ -52,7 +59,7 @@ function generateWinningDoor() {
 function showEmptyDoor(doorNotChosen) {
     userDoorID = userFirstPick.charAt(userFirstPick.length - 1); 
     let firstRevealedDoor = document.getElementById(`door-${doorNotChosen}`);
-    gameFeedback.innerHTML = `Thank for chosing door ${userDoorID}. I have now revealed that door ${doorNotChosen} is not the winning door. Now that you know this, would you like to change door?`;
+    gameFeedback.innerHTML = `Thank you for chosing door ${userDoorID}. I have now revealed that door ${doorNotChosen} is not the winning door. Now that you know this, would you like to change door?`;
     firstRevealedDoor.style.backgroundImage = "url(./images/door-losing.jpg)";
     firstRevealedDoor.disabled = true;
 }
@@ -60,8 +67,10 @@ function showEmptyDoor(doorNotChosen) {
 function changeOrNot() {
     disableDoors();
     if ( userSecondPick == userFirstPick){
+        gameFeedback.innerHTML = `You did not change your choice.`;
         checkWin();
     } else if (userSecondPick !== userFirstPick) {
+        gameFeedback.innerHTML = `You changed your choice.`;
         userFirstPickEl.classList.remove('selected');
         userSecondPickEl.classList.add('selected');
         checkWin();
@@ -69,17 +78,14 @@ function changeOrNot() {
 }
 
 function disableDoors() {
-    let door1 = document.getElementById('door-1');
     door1.disabled = true;
-    let door2 = document.getElementById('door-2');
     door2.disabled = true;
-    let door3 = document.getElementById('door-3');
     door3.disabled = true;
 }
 
 function checkWin() {
     if (secondPickID == winningDoorID) {
-        console.log('won');
+        gameFeedback.innerHTML += ` And, you WON!`;
         document.getElementById(`door-${winningDoorID}`).style.backgroundImage = "url(./images/door-winning.jpg)";
         for (let i = 0; i < possibleChoices.length + 1; i++) 
             if (i != winningDoorID && i != doorNotChosen && i != 0) {
@@ -88,13 +94,28 @@ function checkWin() {
             document.getElementById(`door-${nonWinningDoor}`).style.backgroundImage = "url(./images/door-losing.jpg)";
     }
     else {
-        console.log('lost');
+        gameFeedback.innerHTML += ` And, you LOST!`;
         document.getElementById(`door-${winningDoorID}`).style.backgroundImage = "url(./images/door-winning.jpg)";
         document.getElementById(`door-${secondPickID}`).style.backgroundImage = "url(./images/door-losing.jpg)";
     }
 }
 
-function Replay() {
-    CreateGame()
+function replay() {
+    firstPickMade = false;
+    resetDoors();
+    gameFeedback.innerHTML = `Behind one of these three doors there is a prize, the two other doors do not contain a prize.
+    Please click on the door that you think the prize is behind.
+    For the purposes of the experiment, we assume that you never pick the winning door on the first attempt.`;
 }
 
+function resetDoors() {
+    door1.disabled = false;
+    door1.style.backgroundImage = "url(./images/door-closed.jpg)";
+    door1.classList.remove('selected');
+    door2.disabled = false;
+    door2.style.backgroundImage = "url(./images/door-closed.jpg)";
+    door2.classList.remove('selected');
+    door3.disabled = false;
+    door3.style.backgroundImage = "url(./images/door-closed.jpg)";
+    door3.classList.remove('selected');
+}
