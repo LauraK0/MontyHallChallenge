@@ -99,6 +99,10 @@ header {
     border: none;
     cursor: pointer;
 }
+.selected {
+    color: yellow;
+    border: 6px solid yellow;
+}
 #door-1{
     background-image: url(./images/door-closed.jpg);
 }

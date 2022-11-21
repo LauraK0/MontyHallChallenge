@@ -1,133 +1,100 @@
 const gameFeedback = document.getElementById('game-feedback');
 const possibleChoices = document.querySelectorAll('.button-door');
 
-
-let userChoice;
-let winningDoor;
-
-let isFirstChoice;
-let isSecondChoice;
-let firstOpenedDoor;
-let firsChosenDoor;
-let secondChosenDoor;
-let simulating = false
-
-let firstOpenedDoors = [];
+let userFirstPick;
+let userFirstPickEl;
+let userDoorID;
+let doorNotChosen;
+let firstPickMade = false;
+let userSecondPick;
+let userSecondPickEl;
+let secondPickID
+let winningDoorID;
+let nonWinningDoor;
 
 possibleChoices.forEach(possibleChoice => possibleChoice.addEventListener('click', (e) => {
-    userChoice = e.target.id;
-    console.log(userChoice)
-    gameStart(userChoice);
-}))
-
-function gameStart(userChoice) {
-    let doorID = userChoice.charAt(userChoice.length - 1); 
-    console.log(doorID);
-    let randomNumber = Math.floor(Math.random() * possibleChoices.length) + 1;
-    console.log(randomNumber);
-    while (randomNumber == doorID) {
-        randomNumber = Math.floor(Math.random() * possibleChoices.length) + 1;
-      }
-     if (doorID !== randomNumber) {
-        gameFeedback.innerHTML = 'You did not pick the winning door. Before I open your door, I will allow you to change your chosen door. Please select your chosen door';
-        showEmptyDoor(userChoice);
-    } else {
-
+    if (firstPickMade == false) {
+        userFirstPick = e.target.id;
+        userFirstPickEl = document.getElementById(e.target.id);
+        userFirstPickEl.classList.add('selected');
+        userDoorID = userFirstPick.charAt(userFirstPick.length - 1);
+        generateWinningDoor();
+        e.preventDefault();
     }
-    // isFirstChoice = true;
-    // isSecondChoice = false;
-    // document.getElementById("winlosetext").value = "";
-    // document.getElementById("change_or_not_ask").value = "Behind one of these doors there is a car. Behind each of the other two doors there is a goat. Click on the door that you think the car is behind.";
-    // UpdateStats()
+    else {
+        userSecondPick = e.target.id;
+        userSecondPickEl = document.getElementById(e.target.id);
+        secondPickID = userSecondPick.charAt(userSecondPick.length - 1);
+        changeOrNot();
+        e.preventDefault();
+    }
+}));
+
+
+function generateWinningDoor() {
+    if (firstPickMade == true) {
+        return;
+    }
+    else {
+        winningDoorID = Math.floor(Math.random() * possibleChoices.length) + 1;
+        while (winningDoorID == userDoorID) {
+            winningDoorID = Math.floor(Math.random() * possibleChoices.length) + 1;
+        }
+        for (let i = 0; i < possibleChoices.length + 1; i++) 
+            if (i != winningDoorID && i != userDoorID && i != 0) {
+                doorNotChosen = i;
+            }
+        firstPickMade = true;
+        showEmptyDoor(doorNotChosen);
+    }
 }
 
-function showEmptyDoor(userChoice) {
-    firstOpenedDoor = document.getElementById(userChoice);
-    firstOpenedDoor.style.backgroundImage = "url(./images/door-losing.jpg)";
-    changeOrNot();
+function showEmptyDoor(doorNotChosen) {
+    userDoorID = userFirstPick.charAt(userFirstPick.length - 1); 
+    let firstRevealedDoor = document.getElementById(`door-${doorNotChosen}`);
+    gameFeedback.innerHTML = `Thank for chosing door ${userDoorID}. I have now revealed that door ${doorNotChosen} is not the winning door. Now that you know this, would you like to change door?`;
+    firstRevealedDoor.style.backgroundImage = "url(./images/door-losing.jpg)";
+    firstRevealedDoor.disabled = true;
 }
 
 function changeOrNot() {
-//  const remainingChoices = 
+    disableDoors();
+    if ( userSecondPick == userFirstPick){
+        checkWin();
+    } else if (userSecondPick !== userFirstPick) {
+        userFirstPickEl.classList.remove('selected');
+        userSecondPickEl.classList.add('selected');
+        checkWin();
+    }
 }
- 
-// function FirstChoice(door) {
-//     let a = [1,2,3]
-//     let x;
-//     let y;
-//     let z;
-//     if (door == "door1") {
-//         if (winningDoor == 1) {
-//             firstOpenedDoor = "door3"
-//             x = 3
-//         }
-//         else {
-//             if (winningDoor == 2) {
-//                 firstOpenedDoor = "door3"
-//                 x = 3
-//             }
-//             else {
-//                 firstOpenedDoor = "door2"
-//                 x = 2
-//             }
-//         }
-//         y = 1
-//     }
-//     if (door == "door2") {
-//         if (winningDoor == 2) {
-//             firstOpenedDoor = "door1"
-//             x = 1
-//         }
-//         else {
-//             if (winningDoor == 1) {
-//                 firstOpenedDoor = "door3"
-//                 x =3
-//             }
-//             else {
-//                 firstOpenedDoor = "door1"
-//                 x = 1
-//             }
-//         }
-//         y = 2
-//     }
-//     if (door == "door3") {
-//         if (winningDoor == 3) {
-//             firstOpenedDoor = "door2"
-//             x =2
-//         }
-//         else {
-//             if (winningDoor == 1) {
-//                 firstOpenedDoor = "door2"
-//                 x = 2
-//             }
-//             else {
-//                 firstOpenedDoor = "door1"
-//                 x = 1
-//             }
-//         }
-//         y =3
-//     }
-//     Hide(firstOpenedDoor);
-//     a.splice(a.indexOf(x), 1);
-//     a.splice(a.indexOf(y), 1);
-//     document.getElementById("change_or_not_ask").value = "Obviously the car is not behind door " + x + ". But before I open door " + y +", the door you selected, I'm going to let you switch to door " + a +" if you like. Again, click on the door which you think the car is behind.";
-//     return door;
-// }
 
-function Hide(id) {
-    let x = "door" + winningD
-    if (id == x) {
-        document.getElementById(id).src = "Photos/car.png";
+function disableDoors() {
+    let door1 = document.getElementById('door-1');
+    door1.disabled = true;
+    let door2 = document.getElementById('door-2');
+    door2.disabled = true;
+    let door3 = document.getElementById('door-3');
+    door3.disabled = true;
+}
+
+function checkWin() {
+    if (secondPickID == winningDoorID) {
+        console.log('won');
+        document.getElementById(`door-${winningDoorID}`).style.backgroundImage = "url(./images/door-winning.jpg)";
+        for (let i = 0; i < possibleChoices.length + 1; i++) 
+            if (i != winningDoorID && i != doorNotChosen && i != 0) {
+                nonWinningDoor = i;
+            }
+            document.getElementById(`door-${nonWinningDoor}`).style.backgroundImage = "url(./images/door-losing.jpg)";
     }
     else {
-        document.getElementById(id).src = "Photos/goat.png";
+        console.log('lost');
+        document.getElementById(`door-${winningDoorID}`).style.backgroundImage = "url(./images/door-winning.jpg)";
+        document.getElementById(`door-${secondPickID}`).style.backgroundImage = "url(./images/door-losing.jpg)";
     }
-}
-
-function Show(id) {
-    document.getElementById(id).src = "Photos/door.png";
 }
 
 function Replay() {
     CreateGame()
 }
+
