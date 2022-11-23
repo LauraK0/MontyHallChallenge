@@ -10,13 +10,10 @@
 <body>
     <header class="header">
         <nav class="navbar-container">
-          <a href="#about" class="button">Applicant</a>
+          <a href="https://github.com/LauraK0" class="button">Applicant GitHub</a>
           <ul class="navbar">
             <li>
-              <a href="#about" class="navbar-link">What is the Monty Hall Problem?</a>
-            </li>
-            <li>
-              <a href="#how-to-play" class="navbar-link">How to Play</a>
+              <a href="https://mathworld.wolfram.com/MontyHallProblem.html#:~:text=The%20Monty%20Hall%20problem%20is%20deciding%20whether%20you%20do.,a%20door%20with%20a%20goat." class="navbar-link">What is the Monty Hall Problem?</a>
             </li>
           </ul>
         </nav>
@@ -41,23 +38,22 @@
         <div class="output-container">
         <div class="statistics-container">
             <h2>Statistics</h2>
-            <table>
-                <tr>
-                    <td id="first-box"> </td>
-                    <td> Won </td>
-                    <td> Lost </td>
-                </tr>
-                <tr>
-                    <td> Changed </td>
-                    <td id="changeWin"> </td>
-                    <td id="changeLose"> </td>
-                </tr>
-                <tr>
-                    <td> Didn't change </td>
-                    <td id="notchangeWin"> </td>
-                    <td id="notchangeLose"> </td>
-                </tr>
-            </table>
+            <div id="stats">
+                <div id="switches">
+                    <p>Total Switches: <span class="total">0</span></p>
+                    <p>Win rate:</p>
+                    <div class="bar">
+                        <span class="win-rate">0%</span>
+                    </div>
+                </div>
+                <div id="stays">
+                    <p>Total Stays: <span class="total">0</span></p>
+                    <p>Win rate:</p>
+                    <div class="bar">
+                        <span class="win-rate">0%</span>
+                    </div>
+                </div>
+            </div>
             <button class="standard-button" type="reset" id="reset-button">Reset Statistics</button>
         </div>
         <div class="simulate-container">
@@ -67,20 +63,22 @@
                 <input type="number" id="simulation-length" value=1>
                 <label for="will-change-or-not">Should simulation change it's mind:</label>
                 <select title="will-change-or-not"  id="change-or-not" value="change">
-                    <option>Always changes</option>
-                    <option>Never changes</option>
+                    <option>Yes</option>
+                    <option>No</option>
                 </select>
                 <label for="simulation-speed">Speed of simulation:</label>
                 <select title="simulation-speed" id="simulation-speed" value="1">
-                    <option>speed x1</option>
-                    <option>speed x2</option>
-                    <option>speed x1000</option>
+                    <option>x1</option>
+                    <option>x2</option>
+                    <option>x1000</option>
                 </select>
             </div>
             <button class="standard-button" type="button" id="simulate-button">Simulate Game</button>
         </div>
     </div>
 </div>
+
+
 
     <script defer src="./script.js"></script>
 </body>

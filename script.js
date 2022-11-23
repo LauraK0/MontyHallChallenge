@@ -2,11 +2,15 @@ const gameFeedback = document.getElementById('game-feedback');
 const possibleChoices = document.querySelectorAll('.button-door');
 const replayButton = document.getElementById('replay-button');
 const resetButton = document.getElementById('reset-button');
+const simulateButton = document.getElementById('simulate-button');
 
-const changeWinTotal = document.getElementById("changeWin");
-const changeLoseTotal = document.getElementById("changeLose");
-const notChangeWinTotal = document.getElementById("notchangeWin");
-const notChangeLoseTotal = document.getElementById("notchangeLose");
+const totalSwitchEl = document.querySelector('#stats #switches .total')
+const switchBar = document.querySelector('#stats #switches .bar');
+const switchWinRateEl = document.querySelector('#stats #switches .bar .win-rate')
+
+const totalStayEl = document.querySelector('#stats #stays .total')
+const stayBar = document.querySelector('#stats #stays .bar');
+const stayWinRateEl = document.querySelector('#stats #stays .bar .win-rate')
 
 let door1 = document.getElementById('door-1');
 let door2 = document.getElementById('door-2');
@@ -23,18 +27,20 @@ let secondPickID
 let changedDoor = false;
 let winningDoorID;
 let nonWinningDoor;
+let simDelay;
 
 class Stats {
 
-    constructor(changeWin, changeLose, notchangeWin, notchangeLose) {
-        this.changeWin = changeWin
-        this.changeLose = changeLose
-        this.notchangeWin = notchangeWin
-        this.notchangeLose = notchangeLose
+    constructor(totalSwitchPlays, totalStayPlays, totalSwitchWins, totalStayWins) {
+        this.totalSwitchPlays = totalSwitchPlays
+        this.totalStayPlays =  totalStayPlays
+        this.totalSwitchWins = totalSwitchWins
+        this.totalStayWins = totalStayWins
     }
 }
 
-createStorage()
+createStorage();
+updateStats();
 
 possibleChoices.forEach(possibleChoice => possibleChoice.addEventListener('click', (e) => {
     if (firstPickMade == false) {
@@ -56,6 +62,7 @@ possibleChoices.forEach(possibleChoice => possibleChoice.addEventListener('click
 
 replayButton.addEventListener('click', replay);
 resetButton.addEventListener('click', resetStats);
+simulateButton.addEventListener('click', simulate);
 
 function generateWinningDoor() {
     if (firstPickMade == true) {
@@ -63,9 +70,6 @@ function generateWinningDoor() {
     }
     else {
         winningDoorID = Math.floor(Math.random() * possibleChoices.length) + 1;
-        // while (winningDoorID == userDoorID) {
-        //     winningDoorID = Math.floor(Math.random() * possibleChoices.length) + 1;
-        // }
         for (let i = 0; i < possibleChoices.length + 1; i++) 
             if (i != winningDoorID && i != userDoorID && i != 0) {
                 doorNotChosen = i;
@@ -76,7 +80,6 @@ function generateWinningDoor() {
 }
 
 function showEmptyDoor(doorNotChosen) {
-    userDoorID = userFirstPick.charAt(userFirstPick.length - 1); 
     let firstRevealedDoor = document.getElementById(`door-${doorNotChosen}`);
     gameFeedback.innerHTML = `Thank you for chosing door ${userDoorID}. I have now revealed that door ${doorNotChosen} is not the winning door. Now that you know this, would you like to change door? Click on a door to confirm your choice`;
     firstRevealedDoor.style.backgroundImage = "url(./images/door-losing.jpg)";
@@ -85,13 +88,12 @@ function showEmptyDoor(doorNotChosen) {
 
 function changeOrNot() {
     disableDoors();
+    console.log(userSecondPick)
     if ( userSecondPick == userFirstPick){
         gameFeedback.innerHTML = `You did not change your choice.`;
         checkWin();
     } else if (userSecondPick !== userFirstPick) {
         gameFeedback.innerHTML = `You changed your choice.`;
-        userFirstPickEl.classList.remove('selected');
-        userSecondPickEl.classList.add('selected');
         changedDoor = true;
         checkWin();
     }
@@ -119,8 +121,7 @@ function checkWin() {
     else if (secondPickID !== winningDoorID && changedDoor == true) {
         lost();
         changeStats("changeLose");
-    }
-    UpdateStats();
+    }   
 }
 
 function won() {
@@ -141,6 +142,7 @@ function lost() {
 
 function replay() {
     firstPickMade = false;
+    changedDoor = false;
     resetDoors();
     gameFeedback.innerHTML = `Behind one of these three doors there is a prize, the two other doors do not contain a prize.
     Please click on the door that you think the prize is behind.
@@ -162,22 +164,25 @@ function resetDoors() {
 function resetStats() {
     let stat = new Stats(0, 0, 0, 0)
     localStorage.setItem("stats", JSON.stringify(stat))
-    UpdateStats()
+    updateStats()
 }
 
 function changeStats(changeValue) {
     let stats = getStorage()
     if (changeValue === 'changeWin') {
-        stats.changeWin++
+        stats.totalSwitchPlays++
+        stats.totalSwitchWins++
     } else if (changeValue === 'changeLose') {
-        stats.changeLose++
+        stats.totalSwitchPlays++
     } else if (changeValue === 'notchangeWin') {
-        stats.notchangeWin++
+        stats.totalStayWins++
+        stats.totalStayPlays++
     } else if (changeValue === 'notchangeLose') {
-        stats.notchangeLose++
+        stats.totalStayPlays++
     }
     setStorage(stats);
 }
+
 
 function createStorage() {
     let stats = getStorage()
@@ -189,6 +194,7 @@ function createStorage() {
 
 function setStorage(stats) {
     localStorage.setItem("stats", JSON.stringify(stats))
+    updateStats();
 }
 
 function getStorage() {
@@ -198,25 +204,71 @@ function getStorage() {
     }
     return stats;
 }
-function UpdateStats() {
-    let x = getStorage().changeWin * 100 / (getStorage().changeWin + getStorage().changeLose);
-    if (!isNaN(x))
-        changeWinTotal.innerText = getStorage().changeWin + "  (" + x.toFixed(2) + " %)"
-    else
-        changeWinTotal.innerText = getStorage().changeWin + "  (" + 0 + " %)"
-    x = getStorage().changeLose * 100 / (getStorage().changeWin + getStorage().changeLose);
-    if (!isNaN(x))
-        changeLoseTotal.innerText = getStorage().changeLose + "  (" + x.toFixed(2) + " %)"
-    else
-        changeLoseTotal.innerText = getStorage().changeLose + "  (" + 0 + " %)"
-    x = getStorage().notchangeWin * 100 / (getStorage().notchangeWin + getStorage().notchangeLose);
-    if (!isNaN(x))
-        notChangeWinTotal.innerText = getStorage().notchangeWin + "  (" + x.toFixed(2) + " %)"
-    else
-        notChangeWinTotal.innerText = getStorage().notchangeWin + "  (" + 0 + " %)"
-    x = getStorage().notchangeLose * 100 / (getStorage().notchangeWin + getStorage().notchangeLose);
-    if (!isNaN(x))
-        notChangeLoseTotal.innerText = getStorage().notchangeLose + "  (" + x.toFixed(2) + " %)"
-    else
-        notChangeLoseTotal.innerText = getStorage().notchangeLose + "  (" + 0 + " %)"
+
+function updateStats() {
+    let stats = getStorage();
+    const switchWinRate = (stats.totalSwitchWins == 0) ? (0 + '%') : (((stats.totalSwitchWins /stats.totalSwitchPlays) *100).toFixed(1) + '%');
+    switchBar.style.width = switchWinRate; 
+    totalSwitchEl.innerHTML = stats.totalSwitchPlays;
+    switchWinRateEl.innerHTML = switchWinRate;
+    const stayWinRate = (stats.totalStayWins == 0) ? (0 + '%') :  ((stats.totalStayWins /stats.totalStayPlays) *100).toFixed(1) + '%';
+    stayBar.style.width = stayWinRate; 
+    totalStayEl.innerHTML = stats.totalStayPlays;
+    stayWinRateEl.innerHTML = stayWinRate;
+}
+
+function repeat(func, times) {
+    func();
+    times && --times && repeat(func, times);
+}
+
+function simulate() {
+    let speed = document.getElementById("simulation-speed").value;
+
+    if (speed == "x1") {
+         document.getElementById("game-feedback").value = "Wait for 3 seconds to get things ready!";
+         speed = 1000;
+     }
+     else if (speed == "x2") {
+         document.getElementById("game-feedback").value = "Wait for 1 second to get things ready!";
+         speed = 500;
+     }
+    else if (speed == "x1000") {
+        document.getElementById("game-feedback").value = "Wait for 0.001 seconds to get things ready!";
+        speed = 1;
+    }
+
+    let runTime = parseInt(document.getElementById("simulation-length").value)
+    
+    repeat(function () {
+        replay();
+        let userFirstPick = Math.floor(Math.random() * possibleChoices.length) + 1;
+        console.log(userFirstPick)
+        let ifChange = document.getElementById("change-or-not").value;
+        generateWinningDoor(userFirstPick);
+        console.log(winningDoorID)
+        for (let i = 0; i < possibleChoices.length + 1; i++) 
+            if (i != winningDoorID && i != userDoorID && i != 0) {
+            doorNotChosen = i;
+        }
+        showEmptyDoor(doorNotChosen);
+        console.log(doorNotChosen)
+        if ( ifChange == 'Yes') {
+            let arr = [1,2,3];
+            userSecondPick = Math.floor(Math.random() * arr.length) + 1;
+            for (let i = 0; i < arr.length + 1; i++) 
+             if (i != userFirstPick && i != 0 && i != doorNotChosen) {
+                userSecondPick = i;
+            }
+            secondPickID = userSecondPick;
+            console.log(userSecondPick)
+            gameFeedback.innerHTML = `You changed your choice.`;
+            changedDoor = true;
+        } else {
+            userSecondPick = userFirstPick;
+            secondPickID = userSecondPick;
+            gameFeedback.innerHTML = `You did not change your choice.`;
+        }
+    checkWin();
+     }, runTime);
 }
