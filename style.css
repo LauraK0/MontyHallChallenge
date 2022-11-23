@@ -103,13 +103,13 @@ header {
     color: var(--colour-one);
 }
 #door-1{
-    background-image: url(./images/door-closed.png);
+    background-image: url(./images/door-closed.jpg);
 }
 #door-2{
-    background-image: url(./images/door-closed.png);
+    background-image: url(./images/door-closed.jpg);
 }
 #door-3{
-    background-image: url(./images/door-closed.png);
+    background-image: url(./images/door-closed.jpg);
 }
 .game-info {
     position: relative;
