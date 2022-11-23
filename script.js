@@ -82,7 +82,7 @@ function generateWinningDoor() {
 function showEmptyDoor(doorNotChosen) {
     let firstRevealedDoor = document.getElementById(`door-${doorNotChosen}`);
     gameFeedback.innerHTML = `Thank you for chosing door ${userDoorID}. I have now revealed that door ${doorNotChosen} is not the winning door. Now that you know this, would you like to change door? Click on a door to confirm your choice`;
-    firstRevealedDoor.style.backgroundImage = "url(./images/door-losing.jpg)";
+    firstRevealedDoor.style.backgroundImage = "url(./images/door-losing.png)";
     firstRevealedDoor.disabled = true;
 }
 
@@ -126,18 +126,18 @@ function checkWin() {
 
 function won() {
     gameFeedback.innerHTML += ` And, you WON!`;
-    document.getElementById(`door-${winningDoorID}`).style.backgroundImage = "url(./images/door-winning.jpg)";
+    document.getElementById(`door-${winningDoorID}`).style.backgroundImage = "url(./images/door-winning.png)";
     for (let i = 0; i < possibleChoices.length + 1; i++) 
         if (i != winningDoorID && i != doorNotChosen && i != 0) {
             nonWinningDoor = i;
         }
-        document.getElementById(`door-${nonWinningDoor}`).style.backgroundImage = "url(./images/door-losing.jpg)";
+        document.getElementById(`door-${nonWinningDoor}`).style.backgroundImage = "url(./images/door-losing.png)";
 }
 
 function lost() {
     gameFeedback.innerHTML += ` And, you LOST!`;
-    document.getElementById(`door-${winningDoorID}`).style.backgroundImage = "url(./images/door-winning.jpg)";
-    document.getElementById(`door-${secondPickID}`).style.backgroundImage = "url(./images/door-losing.jpg)";
+    document.getElementById(`door-${winningDoorID}`).style.backgroundImage = "url(./images/door-winning.png)";
+    document.getElementById(`door-${secondPickID}`).style.backgroundImage = "url(./images/door-losing.png)";
 }
 
 function replay() {
@@ -151,13 +151,13 @@ function replay() {
 
 function resetDoors() {
     door1.disabled = false;
-    door1.style.backgroundImage = "url(./images/door-closed.jpg)";
+    door1.style.backgroundImage = "url(./images/door-closed.png)";
     door1.classList.remove('selected');
     door2.disabled = false;
-    door2.style.backgroundImage = "url(./images/door-closed.jpg)";
+    door2.style.backgroundImage = "url(./images/door-closed.png)";
     door2.classList.remove('selected');
     door3.disabled = false;
-    door3.style.backgroundImage = "url(./images/door-closed.jpg)";
+    door3.style.backgroundImage = "url(./images/door-closed.png)";
     door3.classList.remove('selected');
 }
 
