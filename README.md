@@ -2,6 +2,15 @@
 
 Write a program that demonstrates that Vos Savant is correct. You will use the output of your program to convince your interviewer that, after the host opens a door, switching doors is always the correct choice.
 
+#### How to use:
+
+Try the app out [here](https://laurak0.github.io/MontyHallChallenge/)
+
+To clone this repo to your local computer, copy and paste the following into your terminal:
+
+```git clone git@github.com:LauraK0/MontyHallChallenge.git```
+
+
 #### Learning Aims:
 
 - [x] Gain an understanding of the problem - perhaps see how your friends react if you play the part of the host.
