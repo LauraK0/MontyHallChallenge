@@ -239,29 +239,36 @@ function simulate() {
     }
 
     let runTime = parseInt(document.getElementById("simulation-length").value)
-    
-    repeat(function () {
+      repeat(function () {
         replay();
         let userFirstPick = Math.floor(Math.random() * possibleChoices.length) + 1;
-        console.log(userFirstPick)
         let ifChange = document.getElementById("change-or-not").value;
         generateWinningDoor(userFirstPick);
-        console.log(winningDoorID)
         for (let i = 0; i < possibleChoices.length + 1; i++) 
-            if (i != winningDoorID && i != userDoorID && i != 0) {
+            if (i != winningDoorID && i != userFirstPick && i != 0) {
             doorNotChosen = i;
         }
         showEmptyDoor(doorNotChosen);
-        console.log(doorNotChosen)
+        let arr = [1,2,3];
         if ( ifChange == 'Yes') {
-            let arr = [1,2,3];
-            userSecondPick = Math.floor(Math.random() * arr.length) + 1;
-            for (let i = 0; i < arr.length + 1; i++) 
-             if (i != userFirstPick && i != 0 && i != doorNotChosen) {
-                userSecondPick = i;
+            for( let i = 0; i < arr.length; i++){ 
+                if ( arr[i] === userFirstPick) { 
+                    arr.splice(i, 1); 
+                }
+            }
+            for( let i = 0; i < arr.length; i++){ 
+                if ( arr[i] === doorNotChosen) { 
+                    arr.splice(i, 1); 
+                }
+            }
+            console.log(arr)
+            if (arr.length === 1) {
+                userSecondPick = arr[0];
+            }
+            else {
+                userSecondPick = Math.floor(Math.random() * arr.length) + 1;
             }
             secondPickID = userSecondPick;
-            console.log(userSecondPick)
             gameFeedback.innerHTML = `You changed your choice.`;
             changedDoor = true;
         } else {
