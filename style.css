@@ -7,7 +7,7 @@
   --colour-four: #4c6e81;
   --background: black; 
 
-  --text-size: 12px;
+  --text-size: 0.98em;
   --h1-size: 48px;
   --h2-size: 36px;
   --h3-size:  20px;
@@ -17,12 +17,13 @@
  padding: 0;
  box-sizing: border-box;
  font-family: 'Roboto Flex', sans-serif;
+ font-size: var(--text-size);
  justify-content: center;
 }
 body, html {
   width: 100vw;
   height: 100vh;
-  line-height: 1.8;
+  line-height: 1.4;
   background-color: var(--background);
   color: white;
 }
@@ -42,7 +43,7 @@ h2 {
 /*navigation styles end*/
 a {
     text-decoration: none;
-    font-size: 0.94rem;
+    font-size: 1rem;
     gap: 4em;
     padding: 4px 8px;
     color: white;
@@ -87,15 +88,18 @@ header {
 .door-container {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    gap: 2em;
+    width: 600px;
+    align-items:stretch;
+    gap: 4em;
     padding-bottom: 2em;
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
 }
 .button-door {
     width:150px;
     height:300px;
     background-size: cover;
-    background-position: center;
     color: white;
     border: none;
     cursor: pointer;
@@ -123,9 +127,9 @@ header {
 #game-feedback {
     color: white;
     text-align: center;
-    font-size: 100%;
+    margin-top: 1em;
     width:400px;
-    min-height: 120px;
+    min-height: 100px;
     justify-content: center;
     align-items: center;
 }
@@ -147,6 +151,7 @@ header {
     background-color: var(--colour-one);
     border: none;
     border-radius: 0.5em;
+    margin-top: 0.5em;
 }
 .simulate-container {
     position: relative;
@@ -177,7 +182,6 @@ select{
   }
   
   #stats p {
-    font-size: 1.2rem;
     margin: 0.25rem 0;
   }
   
