@@ -17,7 +17,7 @@ To clone this repo to your local computer, copy and paste the following into you
 - [x] Convince yourself that Vos Savant was correct.
 - [x] Design and write software that will run sample games employing either the stick or switch strategy.
 - [x] Put the code in a public GitHub repository
-- [ ] Use your software to show that switching doors is statistically the best option.
+- [x] Use your software to show that switching doors is statistically the best option.
 - [x] The elegance of the output is not important so long as the program can be used to prove the point.
 
 ### What is the Monty Hall problem?
