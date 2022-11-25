@@ -25,7 +25,7 @@ To clone this repo to your local computer, copy and paste the following into you
 - Probability puzzle
 - Loosely based on the American television game show Let's Make a Deal and named after its original host, Monty Hall.
 - In the puzzle, you are asked to choose between three doors. 
-- Behind one of which there is a prize, the two other doors do not continue a prize. 
+- Behind one of which there is a prize, the two other doors do not contain a prize. 
 - You choose a door. 
 - Once you have made your selection, Monty Hall will open one of the remaining doors, revealing that it does not contain the prize The host will always pick a door without a prize.
 - The host then asks whether you would like to switch your choice of door to the other remaining door. 
